@@ -1,0 +1,213 @@
+'''Problem Statement 2 :
+
+Complete  the python function to get the output of below cases:
+
+1) case 1 : n = 1 , v =1
+2) case 2 : n = 2 , v = 23
+3) case 3 : n = 3 , v = 365
+4) case 4 : n = 4 , v = 4800
+'''
+
+'''
+
+def mystery(n):
+
+
+   v = 0
+   for x in range(1, n+1):
+       space = ""
+       for t in range(1, x+1):
+           space += str(x)
+       v += int(space)
+   return v
+
+print(mystery(1))
+
+print(mystery(2))
+
+print(mystery(3))
+
+print(mystery(4))
+
+print(mystery(5))
+
+print(mystery(6))
+
+print(mystery(7))
+
+print(mystery(8))
+
+'''
+
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+import time
+import winsound
+from datetime import timedelta
+start_time = time.monotonic()
+# import win32com.client as win32
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium import webdriver
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.chrome.options import Options
+
+import os
+import openpyxl
+from openpyxl import Workbook
+from openpyxl import load_workbook
+from openpyxl.styles import PatternFill, Alignment,Font
+import sys
+from openpyxl.worksheet.datavalidation import DataValidation
+from openpyxl.formatting.rule import Rule
+from openpyxl.styles.differential import DifferentialStyle
+
+from copy import copy
+import pandas as pd
+import datetime
+import numpy as np
+from os.path import exists
+import warnings
+import sys
+from zipfile import ZipFile
+from xls2xlsx import XLS2XLSX
+from os import getcwd
+
+
+
+downloadpath = os.getcwd()
+
+
+def download_reports():
+    try:
+
+        # Make directory in download path
+        if not exists(downloadpath):
+            os.makedirs(downloadpath)
+        elif exists(downloadpath):
+            pass
+        # driver options
+        options = webdriver.ChromeOptions()
+
+        preferences = {"download.default_directory": downloadpath}
+
+        options.add_experimental_option("prefs", preferences)
+
+        chromedriver_path = getcwd() +  r"\Chrome Driver\chromedriver96.exe"
+
+        # If chromedriver exist following code execute
+        if exists(chromedriver_path):
+            driver = webdriver.Chrome(executable_path=chromedriver_path, chrome_options=options)
+
+            element_list = []
+
+            page_url = "https://dermnetnz.org/image-library"
+
+            driver.get(page_url)
+            time.sleep(5)
+
+            diseases_names = driver.find_elements_by_tag_name('h6')
+            diseases_names_list = []
+            for movie in range(len(diseases_names)):
+                diseases_names_list.append(diseases_names[movie].text)
+            print(diseases_names_list)
+
+            time.sleep(2)
+
+            image_url = driver.find_elements_by_xpath('//a[@href]')
+            image_url_list = []
+            for image in image_url:
+                j = image.get_attribute('href')
+                image_url_list.append(j)
+            print(image_url_list)
+
+            time.sleep(2)
+
+
+            icon_image1 = driver.find_elements_by_tag_name('img')
+            icon_image_list = []
+            for icon in icon_image1:
+                k = icon.get_attribute('src')
+                icon_image_list.append(k)
+            print(icon_image_list)
+
+            time.sleep(3)
+
+            data  = { 'Diesease Name': diseases_names_list,
+                      'Image URL' : image_url_list,
+                      'Image ICON' : icon_image_list
+            }
+
+            data.to_csv(downloadpath +"WebScrap_Data.csv", index = False)
+
+
+
+
+
+
+
+
+
+
+
+
+
+            # elems = driver.find_elements_by_xpath("//a[@href]")
+            # for elem in elems:
+            #     print(elem.get_attribute("href"))
+
+
+
+
+
+
+            # icon_img = driver.find_elements_by_tag_name('img')
+            # icon_img_list = []
+            # for icon in icon_img:
+            #     icon_img_list.append(icon.get_attribute('src'))
+            # print(icon_img_list)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    except Exception as e:
+        pass
+
+
+
+
+download_reports()
+
+
+
+
+
+
+
+
+
